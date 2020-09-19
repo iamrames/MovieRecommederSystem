@@ -9,12 +9,12 @@ This is our final year project
   `For help visit : https://flask.palletsprojects.com/en/1.1.x/installation/`
 3. Activate the environment
 4. Run following command to start the project 
-  for windows
-  a. $env:FLASK_APP = "flaskr"
-  b. $env:FLASK_ENV = "development"
-  c. flask run
-  
-  for linux or mac
-  a. $ export FLASK_APP=flaskr
-  b. $ export FLASK_ENV=development
-  c. $ flask run
+  for windows<br />
+  a. $env:FLASK_APP = "flaskr"<br />
+  b. $env:FLASK_ENV = "development"<br />
+  c. flask run<br />
+  <br />
+  for linux or mac<br />
+  a. $ export FLASK_APP=flaskr<br />
+  b. $ export FLASK_ENV=development<br />
+  c. $ flask run<br />
