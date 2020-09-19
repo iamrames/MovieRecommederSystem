@@ -8,7 +8,7 @@ This is our final year project
 2. Create a environment
   `For help visit : https://flask.palletsprojects.com/en/1.1.x/installation/`
 3. Activate the environment
-4. Run following command to start the project 
+4. Run following command to start the project <br />
   for windows<br />
   a. $env:FLASK_APP = "flaskr"<br />
   b. $env:FLASK_ENV = "development"<br />
