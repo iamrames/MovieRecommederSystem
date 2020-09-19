@@ -1,8 +1,9 @@
 <!doctype html>
 <title>{% block title %}{% endblock %} - Movie Recommender System</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-  <h1>Flaskr</h1>
+<!-- <nav>
+  <h1>Movie Recommender System</h1>
   <ul>
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
@@ -12,13 +13,33 @@
       <li><a href="{{ url_for('auth.login') }}">Log In</a>
     {% endif %}
   </ul>
+</nav> -->
+
+<nav>
+  <div class="logo">
+    <h4>Movie Recommender System</h4>
+  </div>
+  <ul class="nav-links">
+    <li><a href="">Home</a></li>
+    <li><a href="">About</a></li>
+    <li><a href="">Movies</a></li>
+    <li><a href="">Login</a></li>
+  </ul>
+  <div class="burger">
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+  </div>
 </nav>
+
+
 <section class="content">
   <header>
     {% block header %}{% endblock %}
   </header>
   {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block content %}{% endblock %}
+  <div class="flash">{{ message }}</div>
+  {% endfor %} {% block content %}{% endblock %}
 </section>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
