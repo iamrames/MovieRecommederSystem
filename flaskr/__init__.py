@@ -29,6 +29,15 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
+    ## Use Command `flask insert-users` to create users
+    db.create_users(app)
+
+    ## Use Command `flask insert-movies` to create movies
+    db.create_movies(app)
+
+    ## Use Command `flask insert-ratings` to create ratings
+    db.create_ratings(app)
+
     ## Importing and registering the blueprint from the factory using app.register_blueprint().
     from . import auth
     app.register_blueprint(auth.bp)
