@@ -2,18 +2,6 @@
 <title>{% block title %}{% endblock %} - Movie Recommender System</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<!-- <nav>
-  <h1>Movie Recommender System</h1>
-  <ul>
-    {% if g.user %}
-      <li><span>{{ g.user['username'] }}</span>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-    {% else %}
-      <li><a href="{{ url_for('auth.register') }}">Register</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
-    {% endif %}
-  </ul>
-</nav> -->
 
 <nav>
   <div class="logo">
@@ -22,8 +10,14 @@
   <ul class="nav-links">
     <li><a href="">Home</a></li>
     <li><a href="">About</a></li>
-    <li><a href="">Movies</a></li>
-    <li><a href="">Login</a></li>
+    <li><a href="/movies">Movies</a></li>
+    {% if g.user %}
+      <li>{{ g.user['username'] }}</li>
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+    {% else %}
+      <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+      <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+    {% endif %}
   </ul>
   <div class="burger">
     <div class="line1"></div>

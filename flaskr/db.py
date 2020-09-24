@@ -49,7 +49,7 @@ def init_app(app):
 @with_appcontext
 def create_user():
     db = get_db()
-    chunksize = 10
+    chunksize = 100
     r_cols = ['id', 'age' , 'gender' , 'occupation' , 'zip_code']
     path = 'D:\Videos\Tutorials\MACHINE LEARNING\[FreeTutorials.Us] Udemy -  data-science-and-machine-learning-with-python-hands-on\DataScience-Python3\ml-100k/u.user'
     # users = pd.read_csv(path,  sep='|',names=r_cols, usecols=range(5), encoding="ISO-8859-1")
@@ -66,7 +66,6 @@ def create_user():
 def create_users(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(create_user)
-
 
 @click.command('insert-movies')
 @with_appcontext
@@ -107,7 +106,7 @@ def create_ratings(app):
 
 def get_random_string(length):
     letters = string.ascii_lowercase
-    result_str = ''.join(random.choice(letters) for i in range(length))
+    result_str = 'user_'.join(random.choice(letters) for i in range(length))
     return result_str
 
 def get_random_alphanumeric_string(letters_count, digits_count):
@@ -128,5 +127,5 @@ def get_random_usernames(count):
 def get_random_password(count):
     password = []
     for i in range(count):
-	    password.append(generate_password_hash(get_random_alphanumeric_string(6,2)))
+	    password.append(generate_password_hash('password'))
     return password
