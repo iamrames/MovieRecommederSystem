@@ -29,6 +29,7 @@ CREATE TABLE movies (
 	release_date TIMESTAMP,
 	video_release_date TIMESTAMP,
 	IMDB_URL TEXT,
+	Image_URL TEXT,
 	unknown INTEGER,
 	action INTEGER,
 	adventure INTEGER,
