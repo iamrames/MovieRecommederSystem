@@ -8,7 +8,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        DATABASE=os.path.join(app.instance_path, 'mrs.sqlite'),
     )
 
     if test_config is None:
@@ -37,6 +37,9 @@ def create_app(test_config=None):
 
     ## Use Command `flask insert-ratings` to create ratings
     db.create_ratings(app)
+
+    ## Use Command `flask insert-genre` to create movie genre
+    db.create_genres(app)
 
     ## Importing and registering the blueprint from the factory using app.register_blueprint().
     from . import auth

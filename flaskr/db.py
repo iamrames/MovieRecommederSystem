@@ -1,12 +1,12 @@
 import sqlite3
 
 import click
+import os
 from flask import current_app, g
 from flask.cli import with_appcontext
 import pandas as pd, numpy as np
 import random, string
 from werkzeug.security import  generate_password_hash
-
 
 def get_db():
     if 'db' not in g:
@@ -44,15 +44,14 @@ def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
 
-
+#### Insert User ####
 @click.command('insert-users')
 @with_appcontext
 def create_user():
     db = get_db()
     chunksize = 100
     r_cols = ['id', 'age' , 'gender' , 'occupation' , 'zip_code']
-    path = 'D:\Videos\Tutorials\MACHINE LEARNING\[FreeTutorials.Us] Udemy -  data-science-and-machine-learning-with-python-hands-on\DataScience-Python3\ml-100k/u.user'
-    # users = pd.read_csv(path,  sep='|',names=r_cols, usecols=range(5), encoding="ISO-8859-1")
+    path = os.path.join(current_app.instance_path, 'seed', 'u.user')
     for chunk in pd.read_csv(path,  sep='|',names=r_cols, usecols=range(5), encoding="ISO-8859-1", chunksize=chunksize):
         chunk.columns = chunk.columns.str.replace(' ', '_') #replacing spaces with underscores for column names
         username = get_random_usernames(len(chunk))
@@ -67,6 +66,25 @@ def create_users(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(create_user)
 
+#### Insert Genre ####
+@click.command('insert-genre')
+@with_appcontext
+def create_genre():
+    db = get_db()
+    chunksize = 100
+    r_cols = ['name', 'id']
+    path = os.path.join(current_app.instance_path, 'seed', 'u.genre')
+    for chunk in pd.read_csv(path,  sep='|',names=r_cols, usecols=range(2), encoding="ISO-8859-1", chunksize=chunksize):
+        chunk.columns = chunk.columns.str.replace(' ', '_') #replacing spaces with underscores for column names
+        chunk.to_sql(name='genre', con=db, if_exists='append', index=False)
+    click.echo('All Genre created.')
+
+def create_genres(app):
+    app.teardown_appcontext(close_db)
+    app.cli.add_command(create_genre)
+
+
+#### Insert Movies ####
 @click.command('insert-movies')
 @with_appcontext
 def create_movie():
@@ -77,7 +95,7 @@ def create_movie():
               'Childrens' , 'Comedy' , 'Crime' , 'Documentary' , 'Drama' , 'Fantasy' ,
               'Film-Noir' , 'Horror' , 'Musical' , 'Mystery' , 'Romance' , 'Sci-Fi' ,
               'Thriller' , 'War' , 'Western']
-    path = 'D:\Videos\Tutorials\MACHINE LEARNING\[FreeTutorials.Us] Udemy -  data-science-and-machine-learning-with-python-hands-on\DataScience-Python3\ml-100k/u.item'
+    path = os.path.join(current_app.instance_path, 'seed', 'u.item')
     for chunk in pd.read_csv(path,  sep='|',names=r_cols, usecols=range(23), encoding="ISO-8859-1", chunksize=chunksize):
         chunk.columns = chunk.columns.str.replace(' ', '_') #replacing spaces with underscores for column names
         chunk.to_sql(name='movies', con=db, if_exists='append', index=False)
@@ -88,13 +106,14 @@ def create_movies(app):
     app.cli.add_command(create_movie)
 
 
+#### Insert Ratings ####
 @click.command('insert-ratings')
 @with_appcontext
 def create_rating():
     db = get_db()
     chunksize = 100
     r_cols = ['user_id', 'item_id' , 'rating' , 'timestamp']
-    path = 'D:\Videos\Tutorials\MACHINE LEARNING\[FreeTutorials.Us] Udemy -  data-science-and-machine-learning-with-python-hands-on\DataScience-Python3\ml-100k/u.data'
+    path = os.path.join(current_app.instance_path, 'seed', 'u.data')
     for chunk in pd.read_csv(path,  sep='\t',names=r_cols, usecols=range(4), encoding="ISO-8859-1", chunksize=chunksize):
         chunk.columns = chunk.columns.str.replace(' ', '_') #replacing spaces with underscores for column names
         chunk.to_sql(name='user_ratings', con=db, if_exists='append', index=False)
@@ -104,11 +123,14 @@ def create_ratings(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(create_rating)
 
+
+## Generating Random string for user name
 def get_random_string(length):
     letters = string.ascii_lowercase
     result_str = 'user_'.join(random.choice(letters) for i in range(length))
     return result_str
 
+## Generating alphanumeric string
 def get_random_alphanumeric_string(letters_count, digits_count):
     sample_str = ''.join((random.choice(string.ascii_letters) for i in range(letters_count)))
     sample_str += ''.join((random.choice(string.digits) for i in range(digits_count)))
