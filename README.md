@@ -15,9 +15,9 @@ This is our final year project
   c. flask run<br />
   <br />
   For Windows cmd, use set instead of export:<br />
-  a. set FLASK_APP=flaskr
-  b. set FLASK_ENV=development
-  c. flask run
+  a. set FLASK_APP=flaskr<br />
+  b. set FLASK_ENV=development<br />
+  c. flask run<br />
   <br />
   for linux or mac<br />
   a. $ export FLASK_APP=flaskr<br />
