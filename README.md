@@ -37,3 +37,10 @@ This is our final year project
   a. $ export FLASK_APP=flaskr<br />
   b. $ export FLASK_ENV=development<br />
   c. $ flask run<br />
+  
+  
+ `Note`
+ Version to be used
+  Flask>=1.0.2
+  Flask-Login==0.4.1
+  Werkzeug==0.14.1
