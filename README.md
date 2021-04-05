@@ -5,9 +5,22 @@ This is our final year project
 ## Steps to run the project
 
 1. Clone the project
-2. Create a environment
-  `For help visit : https://flask.palletsprojects.com/en/1.1.x/installation/`
-3. Activate the environment
+`git clone https://github.com/iamrames/MovieRecommenderSystem.git`
+2. Create a virtual environment
+
+   - **Create and activate a virtual environment**
+
+     ```bash
+     # create virtual environment named "myenv"
+     python3 -m venv myenv       # rename environment as required
+     
+     # activate the environment 
+     source myenv/bin/activate   # for linux
+     myenv\Scripts\activate      # for windows
+     ```
+
+3. Install flask, pandas
+` pip install -r requirements.txt`
 4. Run following command to start the project <br />
   <br />
   For Windows PowerShell, use $env: instead of export:<br />
