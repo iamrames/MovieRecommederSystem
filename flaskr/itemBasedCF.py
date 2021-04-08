@@ -1,4 +1,5 @@
 import pandas as pd
+import click
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
@@ -10,6 +11,7 @@ from flaskr.db import get_db
 bp = Blueprint('movies', __name__)
 
 @bp.route('/movies')
+@bp.route('/')
 @login_required
 def index():
     user_id = g.user
@@ -38,9 +40,12 @@ def correlate_all_movies(user_id):
     corrMatrix = userRatings.corr()
 
     corrMatrix = userRatings.corr(method='pearson', min_periods=100)
-    
+
     # getting correlated rating by user id
-    myRatings = userRatings.loc[user_id].dropna()
+    if(user_id <= len(userRatings)):
+        myRatings = userRatings.loc[user_id].dropna()
+    else:
+        myRatings = userRatings.dropna()
     
     simCandidates = pd.Series()
     for i in range(0, len(myRatings.index)):
