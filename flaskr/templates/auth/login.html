@@ -1,15 +1,41 @@
 {% extends 'base.html' %}
+<!-- <link rel="stylesheet" href="./auth.css"> -->
 
 {% block header %}
   <h1>{% block title %}Log In{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-  <form method="post">
+<form method="post">
+  <!-- <div class="imgcontainer">
+    <img src="img_avatar2.png" alt="Avatar" class="avatar">
+  </div> -->
+
+  <div class="container">
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" id= 'username' required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+
+    <button type="submit">Login</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1">
+    <button type="button" class="cancelbtn">Cancel</button>
+    <span class="register">New User <a href="{{ url_for('auth.register') }}">Sign Up</a></span>
+  </div>
+</form>
+</div>
+  <!-- <form method="post">
     <label for="username">Username</label>
     <input name="username" id="username" required>
     <label for="password">Password</label>
     <input type="password" name="password" id="password" required>
     <input type="submit" value="Log In">
-  </form>
+    <p>Create a new account <a class="action" href= "{{ url_for('auth.register') }}">Register Here</a></p>
+  </form> -->
 {% endblock %}

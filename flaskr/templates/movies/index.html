@@ -1,20 +1,27 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Movies{% endblock %}</h1>
+<h1>{% block title %}Movies{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-  {% for movie in movies.index %}
-    <article class="post">
-      <header>
-        <div>
-          <h1>{{ movie }}</h1>
+{% for movie_row in movies.index | batch(3, '&nbsp;') %}
+<div class="row">
+    
+    {% for movie in movie_row %}
+
+    <div class="col-lg-4">
+        <div class="single_movie text-center">
+            <div class="thumb">
+                <img src="http://us.imdb.com/M/title-exact?Toy%20Story%20(1995)" alt="">
+            </div>
+            <a href="https://en.wikipedia.org/wiki/Jumanji">
+                <h5>{{ movie }}</h5>
+            </a>
+            <p>Jumanji is a 1995 American fantasy adventure film directed by Joe Johnston..</p>
         </div>
-      </header>
-    </article>
-    {% if not loop.last %}
-      <hr>
-    {% endif %}
-  {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endfor %}
 {% endblock %}
