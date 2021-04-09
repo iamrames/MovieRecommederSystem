@@ -14,3 +14,9 @@ build/
 *.egg-info/
 .env/
 .vscode/
+
+#env
+mms
+
+# instance
+instance
