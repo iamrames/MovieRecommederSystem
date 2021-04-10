@@ -619,3 +619,30 @@ a:hover {
   margin-bottom: 0;
 }
 /*# sourceMappingURL=main.css.map */
+
+/* Added by bhuwan */
+.star{
+  color: goldenrod;
+  font-size: 2.0rem;
+  padding: auto; /* space out the stars */
+}
+.star::before{
+  content: '\2606';    /* star outline */
+  cursor: pointer;
+}
+.star.rated::before{
+  /* the style for a selected star */
+  content: '\2605';  /* filled star */
+}
+
+.stars{
+    counter-reset: rateme 0;   
+    font-size: 2.0rem;
+    font-weight: 900;
+}
+.star.rated{
+    counter-increment: rateme 1;
+}
+.stars::after{
+    content: counter(rateme) '/5';
+}

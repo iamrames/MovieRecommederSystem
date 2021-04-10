@@ -17,8 +17,8 @@ def index():
         user_id = 0
     else:
         user_id = user_id['id']
-    movies = correlate_all_movies(user_id)
-    return render_template('movies/index.html', movies=movies)
+    movies_info = correlate_all_movies(user_id)
+    return render_template('movies/index.html', movies_info=movies_info)
 
 
 def correlate_all_movies(user_id):
@@ -35,7 +35,7 @@ def correlate_all_movies(user_id):
 
     userRatings = ratings.pivot_table(index=['user_id'],columns=['title'],values='rating')
 
-    corrMatrix = userRatings.corr()
+    # corrMatrix = userRatings.corr()
 
     corrMatrix = userRatings.corr(method='pearson', min_periods=100)
     
@@ -62,4 +62,9 @@ def correlate_all_movies(user_id):
 
     filteredSims = simCandidates.drop(myRatings.index,errors = 'ignore')
 
-    return filteredSims
+    movies_list = list(filteredSims.index)[:50]
+
+    query= f"SELECT title, IMDB_URL, Image_URL, movie_desc FROM movies where title in ({','.join(['?']*len(movies_list))})"
+    topmovies = db.execute(query, movies_list).fetchall()
+
+    return topmovies

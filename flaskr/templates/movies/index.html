@@ -4,24 +4,35 @@
 <h1>{% block title %}Movies{% endblock %}</h1>
 {% endblock %}
 
-{% block content %}
-{% for movie_row in movies.index | batch(3, '&nbsp;') %}
-<div class="row">
-    
-    {% for movie in movie_row %}
 
-    <div class="col-lg-4">
-        <div class="single_movie text-center">
-            <div class="thumb">
-                <img src="http://us.imdb.com/M/title-exact?Toy%20Story%20(1995)" alt="">
+{% block content %}
+<div class="movie_cards_area pb-5 pt-3" id="movie_cards">
+    <div class="container">
+    {% for movie_row in movies_info | batch(3, '&nbsp;') %}
+    
+    <div class="row">
+        {% for movie in movie_row %}
+            <div class="col-lg-4">
+                <div class="single_movie text-center">
+                    <div class="thumb">
+                        <img src="{{ movie['Image_URL'] }}" alt="">
+                    </div>
+                    <a href="{{ movie['IMDB_URL']}}">
+                        <h5>{{ movie['Title'] }}</h5>
+                    </a>
+                    <p>{{movie['movie_desc']}}</p>
+                    <div style="text-align: center" class="stars one" data-rating="3">
+                        <span class="star">&nbsp;</span>
+                        <span class="star">&nbsp;</span>
+                        <span class="star">&nbsp;</span>
+                        <span class="star">&nbsp;</span>
+                        <span class="star">&nbsp;</span>
+                    </div>
+                </div>
             </div>
-            <a href="https://en.wikipedia.org/wiki/Jumanji">
-                <h5>{{ movie }}</h5>
-            </a>
-            <p>Jumanji is a 1995 American fantasy adventure film directed by Joe Johnston..</p>
-        </div>
+        {% endfor %}
+    </div>
     </div>
     {% endfor %}
-</div>
-{% endfor %}
-{% endblock %}
+    </div>
+    {% endblock %}
