@@ -48,8 +48,8 @@ def create_app(test_config=None):
     from . import blog
     app.register_blueprint(blog.bp)
 
-    from . import itemBasedCF
-    app.register_blueprint(itemBasedCF.bp)
+    from . import movies
+    app.register_blueprint(movies.bp)
 
     app.add_url_rule('/', endpoint='index')
 
