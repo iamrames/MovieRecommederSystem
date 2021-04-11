@@ -78,7 +78,6 @@ def correlate_all_movies(user_id):
     simCandidates.sort_values(inplace = True, ascending = False)
 
     filteredSims = simCandidates.drop(myRatings.index,errors = 'ignore')
-    click.echo(filteredSims);
     return filteredSims
 
 @bp.route('/movies/<movie_id>/<rating>/ratemovie', methods=('GET', 'POST'))
