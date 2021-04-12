@@ -368,6 +368,14 @@ a:hover {
   margin: 0 15px;
 }
 
+.navList__subheading a {
+  color: #fff;
+}
+
+.navList__subheading-title a {
+  color: #fff;
+}
+
 .navList__subheading:after {
   position: absolute;
   content: "";
