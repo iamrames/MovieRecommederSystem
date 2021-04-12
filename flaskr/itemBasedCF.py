@@ -125,7 +125,6 @@ def correlate_all_movies(user_id):
 
     filteredSims = simCandidates.drop(myRatings.index,errors = 'ignore')
     movies_list = filteredSims.index.tolist()
-    print(movies_list)
     query= f"SELECT title, IMDB_URL, Image_URL, movie_desc FROM movies where title in ({','.join(['?']*len(movies_list))})"
     topmovies = db.execute(query, movies_list).fetchall()
     return topmovies
