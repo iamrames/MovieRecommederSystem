@@ -9,44 +9,14 @@ flask insert-movies
 flask insert-ratings
 flask insert-genre
 
+Notes:
+Item based collaborative filtering is considered as more effective solution for recommending similar items.
+Three known implementations being used are
+Cosine Vector Similarity
+Euclidean Distance
+Pearson Correlation Coefficient
 
-<div class="row">
+Pearson correlation and cosine similarity are the most commonly utilized similarity measures to implement collaborative filtering methods. Many factors have an impact on the overall collaborative filtering performance such as the dataset features and the additional info that is used in producing the recommendation. However, in general, the cosine-based collaborative filtering is negatively affected by the sparsity problem and this negative behavior can be reduced by selecting high k-neighbor values. In contrast, the performance of the Pearson-based collaborative filtering is positively affected by the sparsity problem. Note that computing the similarity using Pearson correlation may result in inequitable similarity values. By meaning, in user-based methods, considering two users are similar is inequitable when one of them rated a small number of items and another user rated a large number of items. For instance, consider the case in which user A rated 20 items, user B rated 150 items and both users gave those 20 items the same ratings. Then, it is inequitable to say that user A is 100% similar to user B because user A rated 13.4% of the items that are rated by user B. The same problem can arise in item-based collaborative filtering methods.
 
-      {% for p in products %}
-      <!-- card1 -->
-      <div class="column">
-      <div class="container page-wrapper" style="width: 450px;">
-        <div class="page-inner">
-          <div class="row">
-            <div class="el-wrapper">
-              <div class="box-up">
-                <img class="img" src="{% static p.product_image.url %}" alt="product pic" height="300px" width="300px">
-                <div class="img-info">
-                  <div class="info-inner">
-                    <span style="background-color:#08050a; color:yellow;"class="p-company">{{p.name}}</span>
 
-                  </div>
-                  <div class="a-size">{{p.description}}</div>
-                </div>
-              </div>
-
-              <div class="box-down">
-                <div class="h-bg">
-                  <div class="h-bg-inner"></div>
-                </div>
-
-                <a class="cart" href="{% url 'add-to-cart' p.id  %}">
-                  <span class="price">₹ {{p.price}}</span>
-                  <span class="add-to-cart">
-                    <span class="txt">Add in cart</span>
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-<!-- card1 end -->
-{% if forloop.counter|divisibleby:"3" %}
-    </div>
+https://www.statisticshowto.com/probability-and-statistics/correlation-coefficient-formula/
