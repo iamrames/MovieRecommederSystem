@@ -46,16 +46,12 @@ def list():
     ).fetchmany()
 
     avg_rating = db.execute("""
-    SELECT title, rating/count  from movies 
+    SELECT title, ifnull(rating/count,0) rating, movies.id, movies.IMDB_URL, movies.Image_URL, movies.movie_desc  from movies 
     left join (SELECT user_id, item_id, SUM(rating) rating, count(rating) count from user_ratings where user_id = 1 
 	group by item_id, user_id) ratings on ratings.item_id = movies.id
-    """).fetchone()
+    """).fetchmany(100)
 
-    print(user_rating_infos[0])
-    print(avg_rating[0])
-
-    
-    return render_template('movies/movielists.html', movies_info=movies)
+    return render_template('movies/movielists.html', movies_info=avg_rating)
 
 @bp.route('/movies/category/<category>')
 def get_movie(category):
