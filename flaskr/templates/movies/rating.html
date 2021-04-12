@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Rate Movies{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="movie_cards_area pb-5 pt-3" id="movie_cards">
+    <div class="container">
+    {% for movie_row in movies_info%}
+    <div class="row">
+        {% for movie in movie_row %}
+            <div class="col-lg-4">
+                <div class="single_movie text-center">
+                    <div class="thumb">
+                        <img src="{{ movie['Image_URL'] }}" alt="">
+                    </div>
+                    <a href="{{ movie['IMDB_URL']}}">
+                        <h5>{{ movie['Title'] }}</h5>
+                    </a>
+                    <p>{{movie['movie_desc']}}</p>
+                    <div style="text-align: center" class="stars one" data-rating="3">
+                        <span class="star">&nbsp;</span>
+                        <span class="star">&nbsp;</span>
+                        <span class="star">&nbsp;</span>
+                        <span class="star">&nbsp;</span>
+                        <span class="star">&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+    {% endfor %}
+    </div>
+
+<!-- Pagination Links-->
+<div class="text-right">
+    <a href="{{ url_for('colors', page=colors.prev_num) }}"
+       class="btn btn-outline-dark 
+       {% if colors.page == 1 %}disabled{% endif %}">
+        &laquo;
+    </a>
+<!-- Loop through the number of pages to display a link for each-->
+    {% for page_num in movie.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+{% if page_num %}
+<!-- Check for the active page and set the link to "Active"-->
+            {% if colors.page == page_num %}
+            <a href="{{ url_for('colors', page=page_num) }}"
+               class="btn btn-dark">
+                {{ page_num }}
+            </a>
+            {% else %}
+            <a href="{{ url_for('colors', page=page_num) }}"
+               class="btn btn-outline-dark">
+                {{ page_num }}
+            </a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+    <a href="{{ url_for('colors', page=colors.next_num) }}"
+       class="btn btn-outline-dark 
+       {% if colors.page == colors.pages %}disabled{% endif %}">
+        &raquo;
+    </a>
+</div>
+<p class="text-right mt-3">
+   Showing page {{ colors.page }} of {{ colors.pages }}
+</p>
+{% endblock %}

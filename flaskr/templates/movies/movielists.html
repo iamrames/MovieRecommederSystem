@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Movies{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="movie_cards_area pb-5 pt-3" movie_id="movie_cards">
+    <div class="container">
+    {% for movie_row in movies_info | batch(3, '&nbsp;') %}
+    <div class="row">
+        {% for movie in movie_row %}
+            <div class="col-lg-4">
+                <div class="single_movie text-center">
+                    <div class="thumb">
+                        <img src="{{ movie['Image_URL'] }}" alt="" style="max-height: 200px !important;max-width: 150px !important;min-height: 200px !important;min-width: 150px !important;">
+                    </div>
+                    <a href="{{ movie['IMDB_URL']}}">
+                        <h5>{{ movie['Title'] }}</h5>
+                    </a>
+                    <p>{{movie['movie_desc']}}</p>
+                    <div class="stars" data-rating="3" style="display:inline-flex !important;max-width:250px; margin: 8px;">
+                        <form action="{{ url_for('movies.ratemovie', movie_id=movie['id'], rating='1') }}" method="get"
+                            style="padding: 0px;width: 39px;height: 20px;position: relative;">
+                            <button type="submit" style="padding: 0px;margin: 0px;background-color: white;"><span class="star">&nbsp;</span></button>
+                        </form>
+                        <form action="{{ url_for('movies.ratemovie', movie_id=movie['id'], rating='2') }}" method="get"
+                        style="padding: 0px;width: 39px;height: 20px;position: relative;">
+                            <button type="submit" style="padding: 0px;margin: 0px;background-color: white;"><span class="star">&nbsp;</span></button>
+                        </form>
+                        <form action="{{ url_for('movies.ratemovie', movie_id=movie['id'], rating='3') }}" method="get"
+                        style="padding: 0px;width: 39px;height: 20px;position: relative;">
+                            <button type="submit" style="padding: 0px;margin: 0px;background-color: white;"><span class="star">&nbsp;</span></button>
+                        </form>
+                        <form action="{{ url_for('movies.ratemovie', movie_id=movie['id'], rating='4') }}" method="get"
+                        style="padding: 0px;width: 39px;height: 20px;position: relative;">
+                            <button type="submit" style="padding: 0px;margin: 0px;background-color: white;"><span class="star">&nbsp;</span></button>
+                        </form>
+                        <form action="{{ url_for('movies.ratemovie', movie_id=movie['id'], rating='5') }}" method="get"
+                        style="padding: 0px;width: 39px;height: 20px;position: relative;">
+                            <button type="submit" style="padding: 0px;margin: 0px;background-color: white;"><span class="star">&nbsp;</span></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+    {% endfor %}
+    </div>
+{% endblock %}

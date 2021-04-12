@@ -640,9 +640,9 @@ a:hover {
     font-size: 2.0rem;
     font-weight: 900;
 }
-.star.rated{
+/* .star.rated{
     counter-increment: rateme 1;
 }
 .stars::after{
     content: counter(rateme) '/5';
-}
+} */

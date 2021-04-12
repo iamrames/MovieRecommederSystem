@@ -26,7 +26,7 @@ function toggleClass(el, className) {
 function setUserDropdownListener() {
     const userAvatar = $('.header__avatar');
 
-    userAvatar.on('click', function(e) {
+    userAvatar.on('click', function (e) {
         const dropdown = $(this).children('.dropdown');
         toggleClass(dropdown, 'dropdown--active');
     });
@@ -68,7 +68,7 @@ function toggleClass(el, className) {
 // If user opens the menu and then expands the viewport from mobile size without closing the menu,
 // make sure scrolling is enabled again and that sidenav active class is removed
 function addResizeListeners() {
-    $(window).resize(function(e) {
+    $(window).resize(function (e) {
         const width = window.innerWidth;
         console.log('width: ', width);
 
@@ -81,7 +81,7 @@ function addResizeListeners() {
 
 // Menu open sidenav icon, shown only on mobile
 function setMenuClickListener() {
-    $('.header__menu').on('click', function(e) {
+    $('.header__menu').on('click', function (e) {
         console.log('clicked menu icon');
         toggleClass(sidenavEl, SIDENAV_ACTIVE_CLASS);
         toggleClass(gridEl, GRID_NO_SCROLL_CLASS);
@@ -91,40 +91,40 @@ function setMenuClickListener() {
 
 // Sidenav close icon
 function setSidenavCloseListener() {
-    $('.sidenav__brand-close').on('click', function(e) {
+    $('.sidenav__brand-close').on('click', function (e) {
         toggleClass(sidenavEl, SIDENAV_ACTIVE_CLASS);
         toggleClass(gridEl, GRID_NO_SCROLL_CLASS);
     });
 }
 
 
-        
+
 //initial setup
 // https://gist.github.com/prof3ssorSt3v3/29e623d441e8174ffaef17741a1bba14
-document.addEventListener('DOMContentLoaded', function(){
-    let stars = document.querySelectorAll('.star');
-    stars.forEach(function(star){
-        star.addEventListener('click', setRating); 
-    });
-    
-    let rating = parseInt(document.querySelector('.stars').getAttribute('data-rating'));
-    let target = stars[rating - 1];
-    target.dispatchEvent(new MouseEvent('click'));
-});
+// document.addEventListener('DOMContentLoaded', function(){
+//     let stars = document.querySelectorAll('.star');
+//     stars.forEach(function(star){
+//         star.addEventListener('click', setRating); 
+//     });
 
-function setRating(ev){
+//     let rating = parseInt(document.querySelector('.stars').getAttribute('data-rating'));
+//     let target = stars[rating - 1];
+//     target.dispatchEvent(new MouseEvent('click'));
+// });
+
+function setRating(ev) {
     let span = ev.currentTarget;
     let stars = document.querySelectorAll('.star');
     let match = false;
     let num = 0;
-    stars.forEach(function(star, index){
-        if(match){
+    stars.forEach(function (star, index) {
+        if (match) {
             star.classList.remove('rated');
-        }else{
+        } else {
             star.classList.add('rated');
         }
         //are we currently looking at the span that was clicked
-        if(star === span){
+        if (star === span) {
             match = true;
             num = index + 1;
         }
