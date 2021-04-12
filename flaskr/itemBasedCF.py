@@ -47,9 +47,9 @@ def list():
 
     avg_rating = db.execute("""
     SELECT title, ifnull(rating/count,0) rating, movies.id, movies.IMDB_URL, movies.Image_URL, movies.movie_desc  from movies 
-    left join (SELECT user_id, item_id, SUM(rating) rating, count(rating) count from user_ratings where user_id = 1 
+    left join (SELECT user_id, item_id, SUM(rating) rating, count(rating) count from user_ratings where user_id = ? 
 	group by item_id, user_id) ratings on ratings.item_id = movies.id
-    """).fetchmany(100)
+    """, (u_id,)).fetchmany(100)
 
     return render_template('movies/movielists.html', movies_info=avg_rating)
 
@@ -104,8 +104,9 @@ def correlate_all_movies(user_id):
     simCandidates.sort_values(inplace = True, ascending = False)
 
     filteredSims = simCandidates.drop(myRatings.index,errors = 'ignore')
+    print(filteredSims)
 
-    movies_list = list(filteredSims.index)[:12]
+    movies_list = filteredSims.index.to_list()[:102]
 
     query= f"SELECT title, IMDB_URL, Image_URL, movie_desc FROM movies where title in ({','.join(['?']*len(movies_list))})"
     topmovies = db.execute(query, movies_list).fetchall()
