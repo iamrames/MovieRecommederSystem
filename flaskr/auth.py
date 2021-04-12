@@ -59,8 +59,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            # return redirect(url_for('index'))
-            return render_template("dashboard.html")
+            return redirect(url_for("movies.index"))
 
         flash(error)
 

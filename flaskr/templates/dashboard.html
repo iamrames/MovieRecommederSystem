@@ -1,151 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<body>
-    <div class="grid">
-        <header class="header">
-            <i class="fas fa-bars header__menu"></i>
-            <div class="header__search">
-                <input class="header__input" placeholder="Search..." />
-            </div>
-            <div class="header__avatar">
-                <div class="dropdown">
-                    <ul class="dropdown__list">
-                        <li class="dropdown__list-item">
-                            <span class="dropdown__icon"><i class="far fa-user"></i></span>
-                            <span class="dropdown__title">my profile</span>
-                        </li>
-                        <li class="dropdown__list-item">
-                            <span class="dropdown__icon"><i class="fas fa-clipboard-list"></i></span>
-                            <span class="dropdown__title">my account</span>
-                        </li>
-                        <li class="dropdown__list-item">
-                            <span class="dropdown__icon"><i class="fas fa-sign-out-alt"></i></span>
-                            <span class="dropdown__title"><a href = "{{ url_for('auth.logout') }}"> log out</a></span>
-                        </li>
-                    </ul>
+    <main class="main">
+        <div class="main-header">
+            <div class="main-header__intro-wrapper">
+                <div class="main-header__welcome">
+                    <div class="main-header__welcome-title text-light">Welcome, <strong>{{ g.user['username'] }}</strong></div>
+                    <div class="main-header__welcome-subtitle text-light">How are you today?</div>
                 </div>
-            </div>
-        </header>
-
-        <!-- Sidebar Starts Here -->
-        <aside class="sidenav">
-            <div class="sidenav__brand">
-                <a class="sidenav__brand-link" href="#">Movie Recommendation System</a>
-                <i class="fas fa-times sidenav__brand-close"></i>
-            </div>
-            <div class="sidenav__profile">
-                <div class="sidenav__profile-avatar"></div>
-                <div class="sidenav__profile-title text-light">{{ g.user['username'] }}</div>
-            </div>
-            <div class="row row--align-v-center row--align-h-center">
-                <ul class="navList">
-                    <li class="navList__heading">Category<i class="fas fa-chart-bar"></i></li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='horror')}}">Horrors</span>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='musical')}}">Musical</span>
-
-                        </div>
-                    </li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='mystery')}}">Mystery</span>
-
-                        </div>
-                    </li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='romance')}}">Rommanance</span>
-
-                        </div>
-                    </li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='sci-fi')}}">sci-fi</span>
-
-                        </div>
-                    </li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='Thriller')}}">Thriller</span>
-
-                        </div>
-                    </li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='war')}}">war</span>
-
-                        </div>
-                    </li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='western')}}">western</span>
-
-                        </div>
-                    </li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='horror')}}">Horrors</span>
-
-                        </div>
-                    </li>                    
-                </ul>
-            </div>
-        </aside>
-
-        <main class="main">
-            <div class="main-header">
-                <div class="main-header__intro-wrapper">
-                    <div class="main-header__welcome">
-                        <div class="main-header__welcome-title text-light">Welcome, <strong>{{ g.user['username'] }}</strong></div>
-                        <div class="main-header__welcome-subtitle text-light">How are you today?</div>
-                    </div>
-                    <div class="quickview">
-                        <div class="quickview__item">
-                            <div class="quickview__item-total">41</div>
-                            <div class="quickview__item-description">
-                                <i class="far fa-calendar-alt"></i>
-                                <span class="text-light">Recommendation</span>
-                            </div>
-                        </div>
-                        <div class="quickview__item">
-                            <div class="quickview__item-total">26&deg;</div>
-                            <div class="quickview__item-description">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span class="text-light">Kathmandu</span>
-                            </div>
+                <div class="quickview">
+                    <div class="quickview__item">
+                        <div class="quickview__item-total">26&deg;</div>
+                        <div class="quickview__item-description">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="text-light">Kathmandu</span>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-                <div >
-                <h1> Recommeded Movies: </h1>
-                    <a class="btn btn-primary btn-lg" role="button" href="{{url_for ('movies.index')}}">Visit Here</a>
-                </div>  
+        <div >
+            <h1> Recommeded Movies: </h1>
+                <a class="btn btn-primary btn-lg" role="button" href="{{url_for ('movies.index')}}">Visit Here</a>
+            </div>  
 
-                <div>
-                <h1> Rate your movies here: </h1>
-                <a class="btn btn-primary btn-lg" role="button" href="{{url_for ('movies.index')}}">Rate Movie Here</a>
-                </div>
-
-
-        </main>
-
-        <footer class="footer">
-            <p><span class="footer__copyright">&copy;</span> 2021</p>
-            <p>Crafted with <i class="fas fa-heart footer__icon"></i> by Movie Recommendation System Team
-            </p>
-        </footer>
-    </div>
-</body>
+            <div>
+            <h1> Rate your movies here: </h1>
+            <a class="btn btn-primary btn-lg" role="button" href="{{url_for ('movies.list')}}">Rate Movie Here</a>
+        </div>
+    </main>
 {% endblock %}
 
 </html>

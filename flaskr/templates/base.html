@@ -15,39 +15,135 @@
     <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
   </head>
 
-
-
-<nav>
-  <div class="logo">
-    <h4>Movie Recommender System</h4>
-  </div>
-  <ul class="nav-links">
-    <li><a href="">Home</a></li>
-    <li><a href="">About</a></li>
-    <li><a href="/movies">Movies</a></li>
-    {% if g.user %}
-      <li>{{ g.user['username'] }}</li>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-    {% else %}
-      <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-    {% endif %}
-  </ul>
-  <div class="burger">
-    <div class="line1"></div>
-    <div class="line2"></div>
-    <div class="line3"></div>
-  </div>
-</nav> 
-
-
-<section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
-  {% for message in get_flashed_messages() %}
-  <div class="flash">{{ message }}</div>
-  {% endfor %} {% block content %}{% endblock %}
+{% if g.user %}
+<section>
+  <body>
+    <div class="grid">
+      <header class="header">
+        <i class="fas fa-bars header__menu"></i>
+        <div class="header__search">
+          <form action="{{ url_for('movies.search') }}" method="post">
+              <input class="header__input" placeholder="Search..." name="keyword" id="keyword" />
+          </form>
+        </div>
+        <div class="header__avatar">
+            {% if g.user %}
+            <div class="profile-photo avatar-circle">
+                <span class="initials">{{ g.user['username'][0] }}</span>
+            </div>
+            {% endif %}
+            <div class="dropdown">
+                <ul class="dropdown__list">
+                    {% if g.user %}
+                    <li class="dropdown__list-item">
+                        <span class="dropdown__icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span class="dropdown__title"><a href = "{{ url_for('auth.logout') }}"> log out</a></span>
+                    </li>
+                    {% else %}
+                        <li class="dropdown__list-item">
+                            <span class="dropdown__icon"><i class="far fa-user"></i></span>
+                            <span class="dropdown__title"><a href="{{ url_for('auth.login') }}">Log In</a></span>
+                        </li>
+                        <li class="dropdown__list-item">
+                            <span class="dropdown__icon"><i class="fas fa-clipboard-list"></i></span>
+                            <span class="dropdown__title"><a href="{{ url_for('auth.register') }}">Register</a></span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+      </header>
+        <!-- Sidebar Starts Here -->
+        <aside class="sidenav">
+            <div class="sidenav__brand">
+                <a class="sidenav__brand-link" href="{{url_for ('movies.index')}}">Movie Recommendation System</a>
+                <i class="fas fa-times sidenav__brand-close"></i>
+            </div>
+            <div class="sidenav__profile">
+                <div class="sidenav__profile-avatar">
+                    {% if g.user %}
+                    <div class="avatar-circle">
+                        <span class="initials">{{ g.user['username'][0] }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="sidenav__profile-title text-light">{{ g.user['username'] }}</div>
+            </div>
+            <div class="row row--align-v-center row--align-h-center">
+                <ul class="navList">
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.index')}}">Best Movies For Me</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.list')}}">All Movies</span>
+                        </div>
+                    </li>
+                    <li class="navList__heading">Category<i class="fas fa-chart-bar"></i></li>
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='musical')}}">Musical</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='mystery')}}">Mystery</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='romance')}}">Romance</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='sci-fi')}}">sci-fi</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='Thriller')}}">Thriller</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='war')}}">war</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='western')}}">western</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='horror')}}">Horrors</span>
+                        </div>
+                    </li>                    
+                </ul>
+            </div>
+        </aside>
+        <div class="main">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+  </body>
+  <footer class="footer">
+    <p><span class="footer__copyright">&copy;</span> 2021</p>
+    <p>Crafted with <i class="fas fa-heart footer__icon"></i> by Movie Recommendation System Team
+    </p>
+  </footer>
 </section>
-
-<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% else %}
+<section class="content">
+    <header class="header">
+        {% block authheader %}{% endblock %}
+    </header>
+    
+    {% block authcontent %}{% endblock %}
+        
+</section>
+{% endif %}
+<!-- <script src="{{ url_for('static', filename='app.js') }}"></script> -->

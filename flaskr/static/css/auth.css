@@ -31,6 +31,7 @@ form {
   
   /* Extra style for the cancel button (red) */
   .cancelbtn {
+    margin-left: auto;
     width: auto;
     padding: 10px 18px;
     background-color: #f44336;

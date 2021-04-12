@@ -14,14 +14,6 @@ const gridEl = $('.grid');
 const SIDENAV_ACTIVE_CLASS = 'sidenav--active';
 const GRID_NO_SCROLL_CLASS = 'grid--noscroll';
 
-function toggleClass(el, className) {
-    if (el.hasClass(className)) {
-        el.removeClass(className);
-    } else {
-        el.addClass(className);
-    }
-}
-
 // User avatar dropdown functionality
 function setUserDropdownListener() {
     const userAvatar = $('.header__avatar');
@@ -35,7 +27,6 @@ function setUserDropdownListener() {
 // Sidenav list sliding functionality
 function setSidenavListeners() {
     const subHeadings = $('.navList__subheading');
-    console.log('subHeadings: ', subHeadings);
     const SUBHEADING_OPEN_CLASS = 'navList__subheading--open';
     const SUBLIST_HIDDEN_CLASS = 'subList--hidden';
 
@@ -70,7 +61,6 @@ function toggleClass(el, className) {
 function addResizeListeners() {
     $(window).resize(function (e) {
         const width = window.innerWidth;
-        console.log('width: ', width);
 
         if (width > 750) {
             sidenavEl.removeClass(SIDENAV_ACTIVE_CLASS);
@@ -82,7 +72,6 @@ function addResizeListeners() {
 // Menu open sidenav icon, shown only on mobile
 function setMenuClickListener() {
     $('.header__menu').on('click', function (e) {
-        console.log('clicked menu icon');
         toggleClass(sidenavEl, SIDENAV_ACTIVE_CLASS);
         toggleClass(gridEl, GRID_NO_SCROLL_CLASS);
     });

@@ -102,9 +102,28 @@ a:hover {
   outline: none;
   border: none;
 }
+.avatar-circle {
+  width: 41px;
+  height: 40px;
+  background-color: #4285f4;
+  text-align: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  margin: 3px;
+}
+
+.initials {
+  position: relative;
+  font-size: 18px; /* 50% of parent */
+  line-height: 40px; /* 50% of parent */
+  color: #f7f1f1;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+}
 
 .header__avatar {
-  background-image: url("https://daily-practice.s3.amazonaws.com/welcome-email-template/img/kritika.jpg");
+  /* background-image: url("https://daily-practice.s3.amazonaws.com/welcome-email-template/img/kritika.jpg"); */
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 50%;
@@ -131,7 +150,6 @@ a:hover {
 
 .dropdown {
   position: absolute;
-  top: 54px;
   right: 160px;
   width: 220px;
   height: auto;
@@ -192,13 +210,18 @@ a:hover {
 }
 
 .sidenav {
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  overflow-x: hidden; /* Disable horizontal scroll */
   position: fixed;
   grid-area: sidenav;
   height: 100%;
   overflow-y: auto;
+  overflow: hidden;
   background-color: #394263;
   color: #FFF;
   width: 240px;
+  position: fixed;
   -webkit-transform: translateX(-245px);
           transform: translateX(-245px);
   -webkit-transition: all .6s ease-in-out;
@@ -255,7 +278,7 @@ a:hover {
 }
 
 .sidenav__profile-avatar {
-  background-image: url("https://daily-practice.s3.amazonaws.com/welcome-email-template/img/kritika.jpg");
+  /* background-image: url("https://daily-practice.s3.amazonaws.com/welcome-email-template/img/kritika.jpg"); */
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 50%;

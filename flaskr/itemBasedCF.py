@@ -19,16 +19,22 @@ def index():
         user_id = 0
     else:
         user_id = user_id['id']
-    movies_info = correlate_all_movies(user_id)
-    return render_template('movies/index.html', movies_info=movies_info)
+    movies = correlate_all_movies(user_id)
+    return render_template('movies/index.html', movies=movies)
 
-@bp.route('/movies/list/<keyword>')
-def search(keyword):
+@bp.route('/movies/search', methods=('GET', 'POST'))
+def search():
+    keyword = request.form['keyword']
     db = get_db()
-    movies = db.execute(
-        'SELECT id, Title, IMDB_URL, Image_URL, musical, mystery, romance, [Sci-Fi], thriller, war, western, unknown, action, adventure, animation, childrens, comedy, crime, documentary, drama, fantasy, [film-noir], horror FROM movies WHERE Title like ?',
-        ("%"+keyword+"%",)
-    ).fetchall()
+    # movies = db.execute(
+    #     'SELECT id, Title, IMDB_URL, Image_URL, musical, mystery, romance, [Sci-Fi], thriller, war, western, unknown, action, adventure, animation, childrens, comedy, crime, documentary, drama, fantasy, [film-noir], horror FROM movies WHERE Title like ?',
+    #     ("%"+keyword+"%",)
+    # ).fetchall()
+    movies = db.execute("""
+        SELECT title, ifnull(rating/count,0) rating, movies.id, movies.IMDB_URL, movies.Image_URL, movies.movie_desc  from movies 
+        left join (SELECT item_id, SUM(rating) rating, count(rating) count from user_ratings group by item_id) ratings on ratings.item_id = movies.id
+        WHERE Title like ?
+    """,("%"+keyword+"%",)).fetchmany(100)
     data = []
     for row in movies:
         data.append([x for x in row]) # or simply data.append(list(row))
@@ -37,19 +43,28 @@ def search(keyword):
 @bp.route('/movies/list')
 def list():
     db = get_db()
-    movies = db.execute(
-        'SELECT id, Title, IMDB_URL, Image_URL, musical, mystery, romance, [Sci-Fi], thriller, war, western, unknown, action, adventure, animation, childrens, comedy, crime, documentary, drama, fantasy, [film-noir], horror FROM movies'
-    ).fetchmany(20)
-    u_id = g.user["id"]
-    user_rating_infos = db.execute(
-        'SELECT user_ratings.user_id, user_ratings.item_id, movies.id  from user_ratings left join movies on user_ratings.item_id = movies.id AND user_ratings.user_id= ? ', (u_id,)
-    ).fetchmany()
 
     avg_rating = db.execute("""
     SELECT title, ifnull(rating/count,0) rating, movies.id, movies.IMDB_URL, movies.Image_URL, movies.movie_desc  from movies 
-    left join (SELECT user_id, item_id, SUM(rating) rating, count(rating) count from user_ratings where user_id = 1 
-	group by item_id, user_id) ratings on ratings.item_id = movies.id
+    left join (SELECT item_id, SUM(rating) rating, count(rating) count from user_ratings group by item_id) ratings on ratings.item_id = movies.id
     """).fetchmany(100)
+
+    return render_template('movies/movielists.html', movies_info=avg_rating)
+
+@bp.route('/movies/myratings')
+def myratings():
+    user_id = g.user
+    if user_id is None:
+        user_id = 0
+    else:
+        user_id = user_id['id']
+
+    db = get_db()
+    avg_rating = db.execute("""
+    SELECT title, ifnull(rating/count,0) rating, movies.id, movies.IMDB_URL, movies.Image_URL, movies.movie_desc  from movies 
+    left join (SELECT user_id, item_id, SUM(rating) rating, count(rating) count from user_ratings where user_id = ?
+	group by item_id, user_id) ratings on ratings.item_id = movies.id
+    """,(user_id,)).fetchmany(100)
 
     return render_template('movies/movielists.html', movies_info=avg_rating)
 
@@ -57,12 +72,14 @@ def list():
 def get_movie(category):
     db = get_db()
     arg = f'{category} = 1'
-    query = 'SELECT id, Title, IMDB_URL, Image_URL FROM movies WHERE {}'.format(category)
+    # query = 'SELECT id, Title, IMDB_URL, Image_URL FROM movies WHERE [{}]'.format(category)
+    query = """
+        SELECT title, ifnull(rating/count,0) rating, movies.id, movies.IMDB_URL, movies.Image_URL, movies.movie_desc  from movies 
+        left join (SELECT item_id, SUM(rating) rating, count(rating) count from user_ratings group by item_id) ratings on ratings.item_id = movies.id
+        WHERE [{}]
+    """.format(category)
     movies = db.execute(query).fetchall()
-    # url = f'/movies/category/{category}'
     return render_template('movies/movielists.html', movies_info=movies)
-
-
 
 def correlate_all_movies(user_id):
     db = get_db()
@@ -78,12 +95,15 @@ def correlate_all_movies(user_id):
 
     userRatings = ratings.pivot_table(index=['user_id'],columns=['title'],values='rating')
 
-    # corrMatrix = userRatings.corr()
+    corrMatrix = userRatings.corr()
 
     corrMatrix = userRatings.corr(method='pearson', min_periods=100)
-    
+
     # getting correlated rating by user id
-    myRatings = userRatings.loc[user_id].dropna()
+    if(user_id in userRatings.index):
+        myRatings = userRatings.loc[user_id].dropna()
+    else:
+        myRatings = userRatings.dropna()
     
     simCandidates = pd.Series()
     for i in range(0, len(myRatings.index)):
@@ -104,12 +124,10 @@ def correlate_all_movies(user_id):
     simCandidates.sort_values(inplace = True, ascending = False)
 
     filteredSims = simCandidates.drop(myRatings.index,errors = 'ignore')
-
-    movies_list = list(filteredSims.index)[:12]
-
+    movies_list = filteredSims.index.tolist()
+    print(movies_list)
     query= f"SELECT title, IMDB_URL, Image_URL, movie_desc FROM movies where title in ({','.join(['?']*len(movies_list))})"
     topmovies = db.execute(query, movies_list).fetchall()
-
     return topmovies
 
 @bp.route('/movies/<movie_id>/<rating>/ratemovie', methods=('GET', 'POST'))

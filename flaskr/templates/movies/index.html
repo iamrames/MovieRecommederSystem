@@ -1,38 +1,30 @@
 {% extends 'base.html' %}
-
-{% block header %}
-<h1>{% block title %}Movies{% endblock %}</h1>
-{% endblock %}
-
-
+{% block title %}Recommended Movies{% endblock %}
 {% block content %}
-<div class="movie_cards_area pb-5 pt-3" id="movie_cards">
+<div class="movie_cards_area pb-5 pt-3">
     <div class="container">
-    {% for movie_row in movies_info | batch(3, '&nbsp;') %}
-    
-    <div class="row">
-        {% for movie in movie_row %}
-            <div class="col-lg-4">
-                <div class="single_movie text-center">
-                    <div class="thumb">
-                        <img src="{{ movie['Image_URL'] }}" alt="">
+        {% if movies|length %}
+        {% for movie_row in movies | batch(3, '&nbsp;') %}
+            <div class="row">
+                {% for movie in movie_row %}
+                    <div class="col-lg-4">
+                        <div class="text-center card" style="max-height: 384px; max-width:240px; min-height: 384px; min-width:240px; margin: 5px;">
+                            <img class="thumb card-img-top" src="{{ movie['Image_URL'] }}" alt="" 
+                                style="max-height: 200px !important;max-width: 150px !important;min-height: 200px !important;min-width: 150px !important; margin-left:auto; margin-right: auto;">
+                            <div class="card-body">
+                                <a href="{{ movie['IMDB_URL']}}">
+                                    <h6 class="card-title">{{ movie['Title'] }}</h6>
+                                </a>
+                                <p class="card-text" style="max-height: 48px;font-size: 11px;overflow: hidden;">{{movie['movie_desc']}}</p>
+                            </div>
+                        </div>
                     </div>
-                    <a href="{{ movie['IMDB_URL']}}">
-                        <h5>{{ movie['Title'] }}</h5>
-                    </a>
-                    <p>{{movie['movie_desc']}}</p>
-                    <div style="text-align: center" class="stars one" data-rating="3">
-                        <span class="star">&nbsp;</span>
-                        <span class="star">&nbsp;</span>
-                        <span class="star">&nbsp;</span>
-                        <span class="star">&nbsp;</span>
-                        <span class="star">&nbsp;</span>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         {% endfor %}
+        {% else %}
+            <h5 class="center">You haven't rated any movies, please go to all movies and rate some.</h5>
+        {% endif %}
     </div>
-    </div>
-    {% endfor %}
-    </div>
-    {% endblock %}
+</div>
+{% endblock %}
