@@ -62,7 +62,7 @@ def myratings():
     db = get_db()
     avg_rating = db.execute("""
     SELECT title, ifnull(rating/count,0) rating, movies.id, movies.IMDB_URL, movies.Image_URL, movies.movie_desc  from movies 
-    left join (SELECT user_id, item_id, SUM(rating) rating, count(rating) count from user_ratings where user_id = ?
+    inner join (SELECT user_id, item_id, SUM(rating) rating, count(rating) count from user_ratings where user_id = ?
 	group by item_id, user_id) ratings on ratings.item_id = movies.id
     """,(user_id,)).fetchmany(100)
 
