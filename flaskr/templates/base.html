@@ -73,58 +73,58 @@
                 <ul class="navList">
                     <li>
                         <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.index')}}">Best Movies For Me</span>
+                            <a href="{{url_for ('movies.index')}}">Best Movies For Me</a>
                         </div>
                     </li>
                     <li>
                         <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.list')}}">All Movies</span>
+                            <a href="{{url_for ('movies.list')}}">All Movies</a>
                         </div>
                     </li>
                     <li>
                     <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.myratings')}}">My Ratings</span>
+                            <a href="{{url_for ('movies.myratings')}}">My Ratings</a>
                         </div>
                     </li>
-                    <li class="navList__heading">Category<i class="fas fa-chart-bar"></i></li>
+                    <li class="navList__heading"><span style="color: #4285f4">Category</span><i class="fas fa-chart-bar"></i></li>
                     <li>
                         <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='musical')}}">Musical</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='mystery')}}">Mystery</span>
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='musical')}}">Musical</a></span>
                         </div>
                     </li>
                     <li>
                         <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='romance')}}">Romance</span>
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='mystery')}}">Mystery</a></span>
                         </div>
                     </li>
                     <li>
                         <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='sci-fi')}}">sci-fi</span>
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='romance')}}">Romance</a></span>
                         </div>
                     </li>
                     <li>
                         <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='Thriller')}}">Thriller</span>
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='sci-fi')}}">sci-fi</a></span>
                         </div>
                     </li>
                     <li>
                         <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='war')}}">war</span>
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='Thriller')}}">Thriller</a></span>
                         </div>
                     </li>
                     <li>
                         <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='western')}}">western</span>
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='war')}}">war</a></span>
                         </div>
                     </li>
                     <li>
                         <div class="navList__subheading row row--align-v-center">
-                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='horror')}}">Horrors</span>
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='western')}}">western</a></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="navList__subheading row row--align-v-center">
+                            <span class="navList__subheading-title"><a href="{{url_for ('movies.get_movie', category='horror')}}">Horrors</a></span>
                         </div>
                     </li>                    
                 </ul>

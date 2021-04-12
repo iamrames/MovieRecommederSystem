@@ -34,7 +34,7 @@ def search():
         SELECT title, ifnull(rating/count,0) rating, movies.id, movies.IMDB_URL, movies.Image_URL, movies.movie_desc  from movies 
         left join (SELECT item_id, SUM(rating) rating, count(rating) count from user_ratings group by item_id) ratings on ratings.item_id = movies.id
         WHERE Title like ?
-    """,("%"+keyword+"%",)).fetchmany(100)
+    """,("%"+keyword+"%",)).fetchmany(66)
     data = []
     for row in movies:
         data.append([x for x in row]) # or simply data.append(list(row))
@@ -47,7 +47,7 @@ def list():
     avg_rating = db.execute("""
     SELECT title, ifnull(rating/count,0) rating, movies.id, movies.IMDB_URL, movies.Image_URL, movies.movie_desc  from movies 
     left join (SELECT item_id, SUM(rating) rating, count(rating) count from user_ratings group by item_id) ratings on ratings.item_id = movies.id
-    """).fetchmany(100)
+    """).fetchmany(66)
 
     return render_template('movies/movielists.html', movies_info=avg_rating)
 
@@ -64,7 +64,7 @@ def myratings():
     SELECT title, ifnull(rating/count,0) rating, movies.id, movies.IMDB_URL, movies.Image_URL, movies.movie_desc  from movies 
     inner join (SELECT user_id, item_id, SUM(rating) rating, count(rating) count from user_ratings where user_id = ?
 	group by item_id, user_id) ratings on ratings.item_id = movies.id
-    """,(user_id,)).fetchmany(100)
+    """,(user_id,)).fetchmany(66)
 
     return render_template('movies/movielists.html', movies_info=avg_rating)
 
@@ -78,7 +78,7 @@ def get_movie(category):
         left join (SELECT item_id, SUM(rating) rating, count(rating) count from user_ratings group by item_id) ratings on ratings.item_id = movies.id
         WHERE [{}]
     """.format(category)
-    movies = db.execute(query).fetchall()
+    movies = db.execute(query).fetchmany(66)
     return render_template('movies/movielists.html', movies_info=movies)
 
 def correlate_all_movies(user_id):
@@ -94,11 +94,7 @@ def correlate_all_movies(user_id):
     ratings = pd.merge(movies_df, ratings_df)
 
     userRatings = ratings.pivot_table(index=['user_id'],columns=['title'],values='rating')
-
-    corrMatrix = userRatings.corr()
-
     corrMatrix = userRatings.corr(method='pearson', min_periods=100)
-
     # getting correlated rating by user id
     if(user_id in userRatings.index):
         myRatings = userRatings.loc[user_id].dropna()
@@ -126,7 +122,7 @@ def correlate_all_movies(user_id):
     filteredSims = simCandidates.drop(myRatings.index,errors = 'ignore')
     movies_list = filteredSims.index.tolist()
     query= f"SELECT title, IMDB_URL, Image_URL, movie_desc FROM movies where title in ({','.join(['?']*len(movies_list))})"
-    topmovies = db.execute(query, movies_list).fetchall()
+    topmovies = db.execute(query, movies_list).fetchmany(66)
     return topmovies
 
 @bp.route('/movies/<movie_id>/<rating>/ratemovie', methods=('GET', 'POST'))
